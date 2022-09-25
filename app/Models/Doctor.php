@@ -42,4 +42,14 @@ class Doctor extends Authenticatable
     {
         return $this->hasOne(DoctorDetail::class);
     }
+
+    public function services()
+    {
+        return $this->hasMany(Services::class);
+    }
+
+    public function hours()
+    {
+        return $this->hasMany(DoctorWorkHour::class);
+    }
 }

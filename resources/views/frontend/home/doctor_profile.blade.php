@@ -34,8 +34,8 @@
                             </div>
                             <div class="doc-info-cont">
                                 <h4 class="doc-name">{{$doctor->name}}</h4>
-                                <p class="doc-speciality">{{$doctor->details->description}}</p>
-                                <p class="doc-department">{{$doctor->departments->name}}</p>
+                                <p class="doc-speciality">{{!empty($doctor->details->description)}}</p>
+                                <p class="doc-department">{{!empty($doctor->departments->name)}}</p>
                                 <div class="rating">
                                     <i class="fas fa-star filled"></i>
                                     <i class="fas fa-star filled"></i>
@@ -45,7 +45,9 @@
                                     <span class="d-inline-block average-rating">(35)</span>
                                 </div>
                                 <div class="clinic-details">
-                                    <p class="doc-location"><i class="fas fa-map-marker-alt"></i> {{$doctor->district->name}} - {{$doctor->city->name}} </p>
+                                    <p class="doc-location"><i
+                                            class="fas fa-map-marker-alt"></i> {{$doctor->district->name}}
+                                        - {{$doctor->city->name}} </p>
                                 </div>
 
                             </div>
@@ -53,28 +55,21 @@
                         <div class="doc-info-right">
                             <div class="clini-infos">
                                 <ul>
-                                    <li><i class="far fa-thumbs-up"></i> 99%</li>
-                                    <li><i class="far fa-comment"></i> 35 Feedback</li>
-                                    <li><i class="fas fa-map-marker-alt"></i> Newyork, USA</li>
-                                    <li><i class="far fa-money-bill-alt"></i> $100 per hour </li>
+                                    @if($doctor->like != 0 && $doctor->dislike!=0)
+                                        <li><i class="far fa-thumbs-up"></i> {{ceil(($doctor->like * 100)/($doctor->like+$doctor->dislike))}}
+                                            %</li>
+                                    @else
+                                        <li><i class="far fa-thumbs-up"></i> 0</li>
+                                    @endif
+                                    <li><i class="far fa-comment"></i> 0 Yorum</li>
+                                    <li>
+                                        <i class="fas fa-map-marker-alt"></i> {{$doctor->district->name.'-'.$doctor->city->name}}
+                                    </li>
+                                    <li><i class="far fa-money-bill-alt"></i> {{!empty($doctor->details->avarage_price)}} </li>
                                 </ul>
                             </div>
-                            <div class="doctor-action">
-                                <a href="javascript:void(0)" class="btn btn-white fav-btn">
-                                    <i class="far fa-bookmark"></i>
-                                </a>
-                                <a href="chat.html" class="btn btn-white msg-btn">
-                                    <i class="far fa-comment-alt"></i>
-                                </a>
-                                <a href="javascript:void(0)" class="btn btn-white call-btn" data-bs-toggle="modal" data-bs-target="#voice_call">
-                                    <i class="fas fa-phone"></i>
-                                </a>
-                                <a href="javascript:void(0)" class="btn btn-white call-btn" data-bs-toggle="modal" data-bs-target="#video_call">
-                                    <i class="fas fa-video"></i>
-                                </a>
-                            </div>
                             <div class="clinic-booking">
-                                <a class="apt-btn" href="booking.html">Book Appointment</a>
+                                <a class="apt-btn" href="booking.html">Randevu Defteri</a>
                             </div>
                         </div>
                     </div>
@@ -88,16 +83,16 @@
                     <nav class="user-tabs mb-4">
                         <ul class="nav nav-tabs nav-tabs-bottom nav-justified">
                             <li class="nav-item">
-                                <a class="nav-link active" href="#doc_overview" data-bs-toggle="tab">Overview</a>
+                                <a class="nav-link active" href="#doc_overview" data-bs-toggle="tab">Genel Bilgiler</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#doc_locations" data-bs-toggle="tab">Locations</a>
+                                <a class="nav-link" href="#doc_locations" data-bs-toggle="tab">Lokasyon</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#doc_reviews" data-bs-toggle="tab">Reviews</a>
+                                <a class="nav-link" href="#doc_reviews" data-bs-toggle="tab">Yorumlar</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#doc_business_hours" data-bs-toggle="tab">Business Hours</a>
+                                <a class="nav-link" href="#doc_business_hours" data-bs-toggle="tab">Çalışma Saatleri</a>
                             </li>
                         </ul>
                     </nav>
@@ -110,156 +105,20 @@
                                 <div class="col-md-12 col-lg-9">
 
                                     <div class="widget about-widget">
-                                        <h4 class="widget-title">About Me</h4>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                        <h4 class="widget-title">Doktor Hakkında</h4>
+                                        <p>
+                                            {{!empty($doctor->details->about)}}
+                                        </p>
                                     </div>
-
-
-                                    <div class="widget education-widget">
-                                        <h4 class="widget-title">Education</h4>
-                                        <div class="experience-box">
-                                            <ul class="experience-list">
-                                                <li>
-                                                    <div class="experience-user">
-                                                        <div class="before-circle"></div>
-                                                    </div>
-                                                    <div class="experience-content">
-                                                        <div class="timeline-content">
-                                                            <a href="#/" class="name">American Dental Medical University</a>
-                                                            <div>BDS</div>
-                                                            <span class="time">1998 - 2003</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="experience-user">
-                                                        <div class="before-circle"></div>
-                                                    </div>
-                                                    <div class="experience-content">
-                                                        <div class="timeline-content">
-                                                            <a href="#/" class="name">American Dental Medical University</a>
-                                                            <div>MDS</div>
-                                                            <span class="time">2003 - 2005</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="widget experience-widget">
-                                        <h4 class="widget-title">Work & Experience</h4>
-                                        <div class="experience-box">
-                                            <ul class="experience-list">
-                                                <li>
-                                                    <div class="experience-user">
-                                                        <div class="before-circle"></div>
-                                                    </div>
-                                                    <div class="experience-content">
-                                                        <div class="timeline-content">
-                                                            <a href="#/" class="name">Glowing Smiles Family Dental Clinic</a>
-                                                            <span class="time">2010 - Present (5 years)</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="experience-user">
-                                                        <div class="before-circle"></div>
-                                                    </div>
-                                                    <div class="experience-content">
-                                                        <div class="timeline-content">
-                                                            <a href="#/" class="name">Comfort Care Dental Clinic</a>
-                                                            <span class="time">2007 - 2010 (3 years)</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="experience-user">
-                                                        <div class="before-circle"></div>
-                                                    </div>
-                                                    <div class="experience-content">
-                                                        <div class="timeline-content">
-                                                            <a href="#/" class="name">Dream Smile Dental Practice</a>
-                                                            <span class="time">2005 - 2007 (2 years)</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="widget awards-widget">
-                                        <h4 class="widget-title">Awards</h4>
-                                        <div class="experience-box">
-                                            <ul class="experience-list">
-                                                <li>
-                                                    <div class="experience-user">
-                                                        <div class="before-circle"></div>
-                                                    </div>
-                                                    <div class="experience-content">
-                                                        <div class="timeline-content">
-                                                            <p class="exp-year">July 2019</p>
-                                                            <h4 class="exp-title">Humanitarian Award</h4>
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a ipsum tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="experience-user">
-                                                        <div class="before-circle"></div>
-                                                    </div>
-                                                    <div class="experience-content">
-                                                        <div class="timeline-content">
-                                                            <p class="exp-year">March 2011</p>
-                                                            <h4 class="exp-title">Certificate for International Volunteer Service</h4>
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a ipsum tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="experience-user">
-                                                        <div class="before-circle"></div>
-                                                    </div>
-                                                    <div class="experience-content">
-                                                        <div class="timeline-content">
-                                                            <p class="exp-year">May 2008</p>
-                                                            <h4 class="exp-title">The Dental Professional of The Year Award</h4>
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a ipsum tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
 
                                     <div class="service-list">
-                                        <h4>Services</h4>
+                                        <h4>Hizmetler</h4>
                                         <ul class="clearfix">
-                                            <li>Tooth cleaning </li>
-                                            <li>Root Canal Therapy</li>
-                                            <li>Implants</li>
-                                            <li>Composite Bonding</li>
-                                            <li>Fissure Sealants</li>
-                                            <li>Surgical Extractions</li>
+                                            @foreach($doctor->services as $service)
+                                                <li>{{$service->name}}</li>
+                                            @endforeach
                                         </ul>
                                     </div>
-
-
-                                    <div class="service-list">
-                                        <h4>Specializations</h4>
-                                        <ul class="clearfix">
-                                            <li>Children Care</li>
-                                            <li>Dental Care</li>
-                                            <li>Oral and Maxillofacial Surgery </li>
-                                            <li>Orthodontist</li>
-                                            <li>Periodontist</li>
-                                            <li>Prosthodontics</li>
-                                        </ul>
-                                    </div>
-
                                 </div>
                             </div>
                         </div>
@@ -274,7 +133,8 @@
                                     <div class="col-md-6">
                                         <div class="clinic-content">
                                             <h4 class="clinic-name"><a href="#">Smile Cute Dental Care Center</a></h4>
-                                            <p class="doc-speciality">MDS - Periodontology and Oral Implantology, BDS</p>
+                                            <p class="doc-speciality">MDS - Periodontology and Oral Implantology,
+                                                BDS</p>
                                             <div class="rating">
                                                 <i class="fas fa-star filled"></i>
                                                 <i class="fas fa-star filled"></i>
@@ -284,26 +144,36 @@
                                                 <span class="d-inline-block average-rating">(4)</span>
                                             </div>
                                             <div class="clinic-details mb-0">
-                                                <h5 class="clinic-direction"> <i class="fas fa-map-marker-alt"></i> 2286 Sundown Lane, Austin, Texas 78749, USA <br><a href="javascript:void(0);">Get Directions</a></h5>
+                                                <h5 class="clinic-direction"><i class="fas fa-map-marker-alt"></i> 2286
+                                                    Sundown Lane, Austin, Texas 78749, USA <br><a
+                                                        href="javascript:void(0);">Get Directions</a></h5>
                                                 <ul>
                                                     <li>
-                                                        <a href="assets/img/features/feature-01.jpg" data-fancybox="gallery2">
-                                                            <img src="assets/img/features/feature-01.jpg" alt="Feature Image">
+                                                        <a href="assets/img/features/feature-01.jpg"
+                                                           data-fancybox="gallery2">
+                                                            <img src="assets/img/features/feature-01.jpg"
+                                                                 alt="Feature Image">
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a href="assets/img/features/feature-02.jpg" data-fancybox="gallery2">
-                                                            <img src="assets/img/features/feature-02.jpg" alt="Feature Image">
+                                                        <a href="assets/img/features/feature-02.jpg"
+                                                           data-fancybox="gallery2">
+                                                            <img src="assets/img/features/feature-02.jpg"
+                                                                 alt="Feature Image">
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a href="assets/img/features/feature-03.jpg" data-fancybox="gallery2">
-                                                            <img src="assets/img/features/feature-03.jpg" alt="Feature Image">
+                                                        <a href="assets/img/features/feature-03.jpg"
+                                                           data-fancybox="gallery2">
+                                                            <img src="assets/img/features/feature-03.jpg"
+                                                                 alt="Feature Image">
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a href="assets/img/features/feature-04.jpg" data-fancybox="gallery2">
-                                                            <img src="assets/img/features/feature-04.jpg" alt="Feature Image">
+                                                        <a href="assets/img/features/feature-04.jpg"
+                                                           data-fancybox="gallery2">
+                                                            <img src="assets/img/features/feature-04.jpg"
+                                                                 alt="Feature Image">
                                                         </a>
                                                     </li>
                                                 </ul>
@@ -349,7 +219,8 @@
                                     <div class="col-md-6">
                                         <div class="clinic-content">
                                             <h4 class="clinic-name"><a href="#">The Family Dentistry Clinic</a></h4>
-                                            <p class="doc-speciality">MDS - Periodontology and Oral Implantology, BDS</p>
+                                            <p class="doc-speciality">MDS - Periodontology and Oral Implantology,
+                                                BDS</p>
                                             <div class="rating">
                                                 <i class="fas fa-star filled"></i>
                                                 <i class="fas fa-star filled"></i>
@@ -359,26 +230,36 @@
                                                 <span class="d-inline-block average-rating">(4)</span>
                                             </div>
                                             <div class="clinic-details mb-0">
-                                                <p class="clinic-direction"> <i class="fas fa-map-marker-alt"></i> 2883 University Street, Seattle, Texas Washington, 98155 <br><a href="javascript:void(0);">Get Directions</a></p>
+                                                <p class="clinic-direction"><i class="fas fa-map-marker-alt"></i> 2883
+                                                    University Street, Seattle, Texas Washington, 98155 <br><a
+                                                        href="javascript:void(0);">Get Directions</a></p>
                                                 <ul>
                                                     <li>
-                                                        <a href="assets/img/features/feature-01.jpg" data-fancybox="gallery2">
-                                                            <img src="assets/img/features/feature-01.jpg" alt="Feature Image">
+                                                        <a href="assets/img/features/feature-01.jpg"
+                                                           data-fancybox="gallery2">
+                                                            <img src="assets/img/features/feature-01.jpg"
+                                                                 alt="Feature Image">
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a href="assets/img/features/feature-02.jpg" data-fancybox="gallery2">
-                                                            <img src="assets/img/features/feature-02.jpg" alt="Feature Image">
+                                                        <a href="assets/img/features/feature-02.jpg"
+                                                           data-fancybox="gallery2">
+                                                            <img src="assets/img/features/feature-02.jpg"
+                                                                 alt="Feature Image">
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a href="assets/img/features/feature-03.jpg" data-fancybox="gallery2">
-                                                            <img src="assets/img/features/feature-03.jpg" alt="Feature Image">
+                                                        <a href="assets/img/features/feature-03.jpg"
+                                                           data-fancybox="gallery2">
+                                                            <img src="assets/img/features/feature-03.jpg"
+                                                                 alt="Feature Image">
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a href="assets/img/features/feature-04.jpg" data-fancybox="gallery2">
-                                                            <img src="assets/img/features/feature-04.jpg" alt="Feature Image">
+                                                        <a href="assets/img/features/feature-04.jpg"
+                                                           data-fancybox="gallery2">
+                                                            <img src="assets/img/features/feature-04.jpg"
+                                                                 alt="Feature Image">
                                                         </a>
                                                     </li>
                                                 </ul>
@@ -428,7 +309,8 @@
 
                                     <li>
                                         <div class="comment">
-                                            <img class="avatar avatar-sm rounded-circle" alt="User Image" src="assets/img/patients/patient.jpg">
+                                            <img class="avatar avatar-sm rounded-circle" alt="User Image"
+                                                 src="assets/img/patients/patient.jpg">
                                             <div class="comment-body">
                                                 <div class="meta-data">
                                                     <span class="comment-author">Richard Wilson</span>
@@ -441,7 +323,8 @@
                                                         <i class="fas fa-star"></i>
                                                     </div>
                                                 </div>
-                                                <p class="recommended"><i class="far fa-thumbs-up"></i> I recommend the doctor</p>
+                                                <p class="recommended"><i class="far fa-thumbs-up"></i> I recommend the
+                                                    doctor</p>
                                                 <p class="comment-content">
                                                     Lorem ipsum dolor sit amet, consectetur adipisicing elit,
                                                     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -468,7 +351,8 @@
                                         <ul class="comments-reply">
                                             <li>
                                                 <div class="comment">
-                                                    <img class="avatar avatar-sm rounded-circle" alt="User Image" src="assets/img/patients/patient1.jpg">
+                                                    <img class="avatar avatar-sm rounded-circle" alt="User Image"
+                                                         src="assets/img/patients/patient1.jpg">
                                                     <div class="comment-body">
                                                         <div class="meta-data">
                                                             <span class="comment-author">Charlene Reed</span>
@@ -483,7 +367,8 @@
                                                         </div>
                                                         <p class="comment-content">
                                                             Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                                                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                                            sed do eiusmod tempor incididunt ut labore et dolore magna
+                                                            aliqua.
                                                             Ut enim ad minim veniam.
                                                             Curabitur non nulla sit amet nisl tempus
                                                         </p>
@@ -511,7 +396,8 @@
 
                                     <li>
                                         <div class="comment">
-                                            <img class="avatar avatar-sm rounded-circle" alt="User Image" src="assets/img/patients/patient2.jpg">
+                                            <img class="avatar avatar-sm rounded-circle" alt="User Image"
+                                                 src="assets/img/patients/patient2.jpg">
                                             <div class="comment-body">
                                                 <div class="meta-data">
                                                     <span class="comment-author">Travis Trimble</span>
@@ -591,19 +477,22 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Title of your review</label>
-                                        <input class="form-control" type="text" placeholder="If you could say it in one sentence, what would you say?">
+                                        <input class="form-control" type="text"
+                                               placeholder="If you could say it in one sentence, what would you say?">
                                     </div>
                                     <div class="form-group">
                                         <label>Your review</label>
                                         <textarea id="review_desc" maxlength="100" class="form-control"></textarea>
-                                        <div class="d-flex justify-content-between mt-3"><small class="text-muted"><span id="chars">100</span> characters remaining</small></div>
+                                        <div class="d-flex justify-content-between mt-3"><small class="text-muted"><span
+                                                    id="chars">100</span> characters remaining</small></div>
                                     </div>
                                     <hr>
                                     <div class="form-group">
                                         <div class="terms-accept">
                                             <div class="custom-checkbox">
                                                 <input type="checkbox" id="terms_accept">
-                                                <label for="terms_accept">I have read and accept <a href="#">Terms &amp; Conditions</a></label>
+                                                <label for="terms_accept">I have read and accept <a href="#">Terms &amp;
+                                                        Conditions</a></label>
                                             </div>
                                         </div>
                                     </div>
@@ -625,54 +514,45 @@
                                         <div class="widget-content">
                                             <div class="listing-hours">
                                                 <div class="listing-day current">
-                                                    <div class="day">Today <span>5 Nov 2019</span></div>
+                                                    <div class="day">Bugün
+                                                        <span>{{\Carbon\Carbon::now()->format('d-m-Y').' '.$days[(\Carbon\Carbon::now()->dayOfWeek+1)]}}</span>
+                                                    </div>
                                                     <div class="time-items">
-                                                        <span class="open-status"><span class="badge bg-success-light">Open Now</span></span>
-                                                        <span class="time">07:00 AM - 09:00 PM</span>
+                                                        @if(!empty($doctor->hours[\Carbon\Carbon::now()->dayOfWeek]->is_closed) && $doctor->hours[\Carbon\Carbon::now()->dayOfWeek]->is_closed == 0 )
+                                                            <span class="open-status"><span
+                                                                    class="badge bg-success-light">Açık</span>
+                                                            </span>
+                                                            <span class="time">
+                                                                {{substr($doctor->hours[\Carbon\Carbon::now()->dayOfWeek]->hour_start,0,5).' - '.substr($doctor->hours[\Carbon\Carbon::now()->dayOfWeek]->hour_end,0,5)}}
+                                                            </span>
+
+                                                        @else
+                                                            <span class="time"><span
+                                                                    class="badge bg-danger-light">Kapalı</span></span>
+                                                        @endif
                                                     </div>
                                                 </div>
-                                                <div class="listing-day">
-                                                    <div class="day">Monday</div>
-                                                    <div class="time-items">
-                                                        <span class="time">07:00 AM - 09:00 PM</span>
-                                                    </div>
-                                                </div>
-                                                <div class="listing-day">
-                                                    <div class="day">Tuesday</div>
-                                                    <div class="time-items">
-                                                        <span class="time">07:00 AM - 09:00 PM</span>
-                                                    </div>
-                                                </div>
-                                                <div class="listing-day">
-                                                    <div class="day">Wednesday</div>
-                                                    <div class="time-items">
-                                                        <span class="time">07:00 AM - 09:00 PM</span>
-                                                    </div>
-                                                </div>
-                                                <div class="listing-day">
-                                                    <div class="day">Thursday</div>
-                                                    <div class="time-items">
-                                                        <span class="time">07:00 AM - 09:00 PM</span>
-                                                    </div>
-                                                </div>
-                                                <div class="listing-day">
-                                                    <div class="day">Friday</div>
-                                                    <div class="time-items">
-                                                        <span class="time">07:00 AM - 09:00 PM</span>
-                                                    </div>
-                                                </div>
-                                                <div class="listing-day">
-                                                    <div class="day">Saturday</div>
-                                                    <div class="time-items">
-                                                        <span class="time">07:00 AM - 09:00 PM</span>
-                                                    </div>
-                                                </div>
-                                                <div class="listing-day closed">
-                                                    <div class="day">Sunday</div>
-                                                    <div class="time-items">
-                                                        <span class="time"><span class="badge bg-danger-light">Closed</span></span>
-                                                    </div>
-                                                </div>
+                                                @foreach($doctor->hours as $key => $row)
+
+                                                    @if($row->is_closed == 0)
+                                                        <div class="listing-day">
+                                                            <div class="day">{{$days[($key+1)]}}</div>
+                                                            <div class="time-items">
+                                                            <span
+                                                                class="time">{{substr($row->hour_start,0,5) .' - '.substr($row->hour_end,0,5)}}
+                                                            </span>
+                                                            </div>
+                                                        </div>
+                                                    @else
+                                                        <div class="listing-day closed">
+                                                            <div class="day">{{$days[($key+1)]}}</div>
+                                                            <div class="time-items">
+                                                        <span class="time"><span
+                                                                class="badge bg-danger-light">Kapalı</span></span>
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                @endforeach
                                             </div>
                                         </div>
                                     </div>

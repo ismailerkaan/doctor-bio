@@ -28,10 +28,16 @@ Route::get('/doctor-register', 'App\Http\Controllers\Doctor\LoginController@regi
 Route::post('/doctor-register', 'App\Http\Controllers\Doctor\LoginController@registerDoctor')->name('doctor.register.post');
 
 
+Route::get('/get-district/{city}', 'App\Http\Controllers\Admin\DoctorController@getDistrict')->name('get.district');
+
+
 Route::get('/doctor-profile/{id}', 'App\Http\Controllers\Frontend\SearchController@doctorProfile')->name('doctors.profile');
 
 
-Route::get('/get-district/{city}', 'App\Http\Controllers\Admin\DoctorController@getDistrict')->name('get.district');
+//Search Doctor
+
+Route::get('/doctor-profile/{id}', 'App\Http\Controllers\Frontend\SearchController@doctorProfile')->name('doctors.profile');
+Route::get('/doctor-list', 'App\Http\Controllers\Frontend\SearchController@index')->name('doctors.search');
 
 
 //Doctor Panel
@@ -58,7 +64,12 @@ Route::prefix('doctor')->middleware(['Doctor'])->group(function () {
     Route::post('/blog/update/{id}', 'App\Http\Controllers\Doctor\BlogController@update')->name('doctor.blog.update');
     Route::get('/blog/delete/{id}', 'App\Http\Controllers\Doctor\BlogController@delete')->name('doctor.blog.delete');
 
+    //Hizmetler
     Route::get('/services', 'App\Http\Controllers\Doctor\ServicesController@index')->name('doctor.services');
+    Route::post('/service/add', 'App\Http\Controllers\Doctor\ServicesController@add')->name('doctor.service.add');
+    Route::get('/service/edit/{id}', 'App\Http\Controllers\Doctor\ServicesController@edit')->name('doctor.service.edit');
+    Route::post('/service/update', 'App\Http\Controllers\Doctor\ServicesController@update')->name('doctor.service.update');
+    Route::get('/service/delete/{id}', 'App\Http\Controllers\Doctor\ServicesController@delete')->name('doctor.service.delete');
 
 
 });

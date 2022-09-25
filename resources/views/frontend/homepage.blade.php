@@ -11,11 +11,11 @@
                 </div>
 
                 <div class="search-box aos" data-aos="fade-up" style="margin-left: -10%">
-                    <form action="#">
+                    <form action="{{route('doctors.search')}}" method="get" enctype="multipart/form-data">
                         <div class="form-group search-location">
                             {{--                            <input type="text" class="form-control" placeholder="İl">--}}
-                            <select class="form-control" name="city_id" onchange="getDistrict(this)">
-                                <option>İl</option>
+                            <select class="form-control" name="city" id="city_id" onchange="getDistrict(this)">
+                                <option selected></option>
                                 @foreach($citys as $city)
                                     <option value="{{$city->number_plate}}">{{$city->name}}</option>
                                 @endforeach
@@ -23,15 +23,14 @@
                             <span class="form-text">Hangi İl'de ?</span>
                         </div>
                         <div class="form-group search-location">
-                            <select class="form-control" name="district_id" id="disctrict_id">
-                                <option>İlçe</option>
-
+                            <select class="form-control" name="district" id="disctrict_id">
+                                <option selected></option>
                             </select>
                             <span class="form-text">Hangi İlçe'de ?</span>
                         </div>
                         <div class="form-group search-info">
                             <select class="form-control" name="department" id="department">
-                                <option>Bölüm</option>
+                                <option selected></option>
                                 @foreach($departments as $department)
                                     <option value="{{$department->id}}">{{$department->name}}</option>
 
@@ -232,10 +231,10 @@
                                     </ul>
                                     <div class="row row-sm">
                                         <div class="col-6">
-                                            <a href="doctor-profile.html" class="btn view-btn">Profili İncele</a>
+                                            <a href="{{route('doctors.profile',$doctor->id)}}" class="btn view-btn">Profili İncele</a>
                                         </div>
                                         <div class="col-6">
-                                            <a href="booking.html" class="btn book-btn">Randevu Al</a>
+                                            <a href="{{route('doctors.profile',$doctor->id)}}" class="btn book-btn">Randevu Al</a>
                                         </div>
                                     </div>
                                 </div>
@@ -441,7 +440,8 @@
 @section('js')
     <script>
         function getDistrict(sel) {
-            $("#disctrict_id").html('<option >İlçe</option>');
+
+            $("#disctrict_id").html('<option selected></option>');
 
             $.ajaxSetup({
                 headers: {

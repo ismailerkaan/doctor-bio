@@ -15,6 +15,7 @@ class HomepageController extends Controller
         $citys = City::get();
         $departments = Departments::get();
         $doctors = Doctor::where('best', 1)->take(5)->get();
-        return view('frontend.homepage', compact('citys', 'departments','doctors'));
+
+        return view('frontend.homepage', compact('citys', 'departments', 'doctors'));
     }
 }
